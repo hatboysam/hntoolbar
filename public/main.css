@@ -39,22 +39,11 @@ img.yc {
 	border: 1px solid white;
 }
 
-#sidebar {
-	float: left;
-	width: 20%;
-	height: 100%;
-	background-color: #f5f5ec;
-}
 
-#sidebar-inner{
+#main {
+	float:left;
 	width: 100%;
-	height: 100%;
-	border-right: 1px solid black;
-}
-
-#main {	
-	width: 80%;
-	float: right;
+	margin-left: 370px;
 	height: 100%;
 }
 
@@ -62,5 +51,54 @@ img.yc {
 	width: 100%;
 	height: 100%;
 }
+
+#sidebar {
+	float: left;
+	width: 370px;
+	margin-right: -100%;
+	height: 100%;
+	background-color: #f5f5ec;
+}
+
+#sidebar-inner{
+	width: 100%;
+	height: 100%;
+	padding: 15px;
+	overflow: scroll;
+	font-size: small;
+}
+
+#sidebar-inner-comments {
+	word-wrap: break-word;
+	width: 95%;
+}
+
+
+.timestamp {
+	color: gray;
+}
+
+.comment {
+	margin-bottom: 20px;
+}
+
+.reply, .title, .subtext {
+	display: none;
+}
+
+#sidebar-inner a {
+	color: black;
+}
+
+#sidebar-inner .user a {
+	color: #369;
+	font-weight: bold;
+}
+
+#sidebar-inner .comment a {
+	color: #369;
+}
+
+
 
 
