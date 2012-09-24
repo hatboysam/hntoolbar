@@ -1,26 +1,32 @@
 $(document).ready(function() {
 
 	var titleLinks = [];
+	var titleLinkObjects = [];
 	var commentLinks = [];
 	var newLinks = [];
 
 	//Links are in td.title
-	$('td.title a[href^="http"]').each(function(link) {
-		//Loop through each external link
-		titleLinks.push($(this).attr('href'));
-		//Check that it doesn't go to HN
+	//$('td.title a[href^="http"]').each(function(link) {
+		//titleLinks.push($(this).attr('href'));
+	//});
+
+	$('td.title').each(function(td) {
+		link = $(this).children('a').first();
+		titleLinkObjects.push(link);
+		titleLinks.push(link.attr('href'));
 	});
 
 	//Now get comment links
 	$('a[href^="item?id"]').each(function(link) {
 		href = $(this).attr('href');
-		if ($.inArray(href, titleLinks) < 0) { 
-			commentLinks.push($(this).attr('href'));
+		if ($.inArray(href, commentLinks) < 0) { 
+			commentLinks.push(href);
 		}
 	});
 
 	//Make toolbar links
-	for(i = 0; i < titleLinks.length; i++) {
+	var minLength = Math.min(commentLinks.length, titleLinks.length);
+	for(i = 0; i < minLength; i++) {
 		titleLink = titleLinks[i];
 
 		commentLink = commentLinks[i];
@@ -32,10 +38,17 @@ $(document).ready(function() {
 	}
 
 	//Replace
-	$('td.title a[href^="http"]').each(function(idx, link) {
-		current = $(this).attr('href');
-		if (current.indexOf("news.yc") < 0 ) {
-			$(this).attr('href', newLinks[idx]);
+	for(i = 0; i < titleLinkObjects.length; i++) {
+		current = titleLinkObjects[i];
+		currentLink = current.attr('href');
+		if (currentLink.indexOf("item?id=") != 0 ) {
+			current.attr('href', newLinks[i]);
 		}
-	});		
+	}
+	// $('td.title a[href^="http"]').each(function(idx, link) {
+	// 	current = $(this).attr('href');
+	// 	if (current.indexOf("news.yc") < 0 ) {
+	// 		$(this).attr('href', newLinks[idx]);
+	// 	}
+	// });		
 });

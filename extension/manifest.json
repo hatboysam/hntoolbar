@@ -5,7 +5,11 @@
 	"description" : "A toolbar for Hacker News, like the Reddit Toolbar",
 	"content_scripts" : [
 		{
-			"matches" : ["http://news.ycombinator.com/"],
+			"matches" : [
+				"http://news.ycombinator.com/",
+				"http://news.ycombinator.com/x*",
+				"http://news.ycombinator.com/news"
+			],
 			"css" : [],
 			"js" : ["jquery.js", "hntoolbar.js"]
 		}
