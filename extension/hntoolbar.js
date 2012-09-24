@@ -12,8 +12,11 @@ $(document).ready(function() {
 
 	$('td.title').each(function(td) {
 		link = $(this).children('a').first();
-		titleLinkObjects.push(link);
-		titleLinks.push(link.attr('href'));
+		href = link.attr('href');
+		if (!(typeof href === 'undefined')){
+			titleLinkObjects.push(link);
+			titleLinks.push(href);
+		}
 	});
 
 	//Now get comment links
