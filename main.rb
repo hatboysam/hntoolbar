@@ -11,9 +11,14 @@ get '/:id' do
 	@id = params[:id]
 	@url = params[:url]
 	@link = "http://news.ycombinator.com/item?id=" + @id
-	@commentslink = "/p/proxy?url=" + "http://hncomments.nathancahill.com/comments/" + @id + "/html/"
+	@commentslink = "/comments/"  + @id
 	@framelink = '/p/proxy?url=' + @url
 	erb :main
+end
+
+get '/comments/:id' do
+	@id = params[:id]
+	open("http://hncomments.nathancahill.com/comments/" + @id + "/html/").read
 end
 
 get '/p/proxy' do

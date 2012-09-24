@@ -1,0 +1,13 @@
+{
+	"name" : "Hacker News Toolbar",
+	"version" : "1.0",
+	"manifest_version" : 2,
+	"description" : "A toolbar for Hacker News, like the Reddit Toolbar",
+	"content_scripts" : [
+		{
+			"matches" : ["http://news.ycombinator.com/"],
+			"css" : [],
+			"js" : ["jquery.js", "hntoolbar.js"]
+		}
+	]
+}
