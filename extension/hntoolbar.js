@@ -44,9 +44,17 @@ $(document).ready(function() {
 	for(i = 0; i < titleLinkObjects.length; i++) {
 		current = titleLinkObjects[i];
 		currentLink = current.attr('href');
-		if (currentLink.indexOf("item?id=") != 0 ) {
+		if (!isHNLink(currentLink) && !isNextPageLink(currentLink)) {
 			current.attr('href', newLinks[i]);
 		}
+	}
+
+	function isHNLink(link) {
+		return (link.indexOf("item?id=") == 0);
+	}
+
+	function isNextPageLink(link) {
+		return (link.indexOf("/x?") == 0);
 	}
 	// $('td.title a[href^="http"]').each(function(idx, link) {
 	// 	current = $(this).attr('href');

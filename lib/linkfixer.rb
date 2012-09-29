@@ -4,9 +4,9 @@ require 'open-uri'
 
 class LinkFixer
 
-	def self.link_magic(link, proxy)
+	def self.link_magic(link)
 		content = LinkFixer.link_content(link)
-		fixed_doc = LinkFixer.fix_links(content, link, proxy)
+		fixed_doc = LinkFixer.fix_links(content, link)
 		fixed_doc.to_html
 	end
 
@@ -16,27 +16,27 @@ class LinkFixer
   		end
 	end
 
-	def self.fix_links(html, url, proxy)
+	def self.fix_links(html, url)
 		html_doc = Nokogiri::HTML(html)
 		#Process Links
 		LinkFixer.all_links(html_doc).each do |link|
 			fixed = LinkFixer.make_absolute(link.attributes["href"], url)
-			link['href'] = (proxy + fixed) unless fixed.nil?
+			link['href'] = fixed unless fixed.nil?
 		end
 		#Process Stylesheets
 		LinkFixer.all_css(html_doc).each do |css|
 			fixed = LinkFixer.make_absolute(css.attributes["href"], url)
-			css['href'] = (proxy + fixed) unless fixed.nil?
+			css['href'] = fixed unless fixed.nil?
 		end
 		#Process JavaScript
 		LinkFixer.all_js(html_doc).each do |js|
-			fixed = LinkFixer.make_absolute(js.attributes["href"], url)
-			js['href'] = (proxy + fixed) unless fixed.nil?
+			fixed = LinkFixer.make_absolute(js.attributes["src"], url)
+			js['src'] = fixed unless fixed.nil?
 		end
 		#Process Images
 		LinkFixer.all_images(html_doc).each do |image|
 			fixed = LinkFixer.make_absolute(image.attributes["src"], url)
-			image['src'] = (proxy + fixed) unless fixed.nil?
+			image['src'] = fixed unless fixed.nil?
 		end
 
 		return html_doc
@@ -51,7 +51,7 @@ class LinkFixer
 	end
 
 	def self.all_js(doc)
-		doc.search("[@type='text/javascript']")
+		doc.search("script")
 	end
 
 	def self.all_images(doc)

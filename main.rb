@@ -26,5 +26,5 @@ get '/p/proxy' do
   #open(url) do |content|
     #content.read.to_s.gsub(/(href|src)=("|')\//, '\1=\2' + url + '/')
   #end
-  LinkFixer.link_magic(url, "")
+  LinkFixer.link_magic(url)
 end
