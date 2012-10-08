@@ -17,7 +17,7 @@
 			</div>
 		</div>
 
-		<script type = "text/javascript">
+		<!-- <script type = "text/javascript">
 			$(document).ready(function() {
 			    $.get("<%= @commentslink %>")
 			    .success(function(data) {
@@ -31,7 +31,65 @@
 			    	);
 			    });
 			});
+		</script> -->
+
+		<script type="text/javascript">
+			var comments;
+			function parseComments(data) {
+				comments = data;
+			}
+			$(document).ready(function() {
+				if (!(comments.items === undefined)) {
+					$("#sidebar-inner-comments").empty();
+				}
+				for (var i in comments.items) {
+					item = comments.items[i];
+					parseSingle(item);
+				}
+
+				function parseSingle(comment) {
+					//Add to comments
+					$("#sidebar-inner-comments").append(commentToHTML(comment));
+					//Parse children
+					if (!(comment.children === undefined)) {
+						for (var i in comment.children) {
+							parseSingle(comment.children[i]);
+						}
+					}
+				}
+
+				function myDecode(str) {
+					return $("<div/>").html(str).text();
+				}
+
+				function commentToHTML(comment) {
+					username = comment.username;
+					content = comment.comment;
+					//parse content
+					//content = myDecode(comment.comment);
+					content = content.replace(/__BR__/g, '<br><br>');
+					content = content.replace(/\\\"/g, '"');
+					//Link to profile
+					userlink = "http://news.ycombinator.com/user?id=" + username;
+					time = comment.time;
+					return ('<div class="comment">' +
+								'<span class="user">' +
+									'<a href="' + userlink + '">' +
+										username +
+									'</a>' +
+								'</span>' +
+								'<span class="timestamp">' + "  " + time + '</span>' +
+								'<br>' + 
+								'<p class="text">' + content + '</p>' +
+							'</div>'
+							);
+				}
+			});
 		</script>
+
+		<script type="text/javascript" src=
+		<%="http://hndroidapi.appspot.com/nestedcomments/format/json/id/#{@id}?appid=hntoolbar&callback=parseComments" %>></script>
+
 
 		<div id="sidebar">
 			<div id="sidebar-inner">
