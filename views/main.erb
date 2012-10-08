@@ -66,7 +66,7 @@
 					username = comment.username;
 					content = comment.comment;
 					//parse content
-					//content = myDecode(comment.comment);
+					content = myDecode(comment.comment);
 					content = content.replace(/__BR__/g, '<br><br>');
 					content = content.replace(/\\\"/g, '"');
 					//Link to profile
