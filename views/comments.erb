@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<title>Discussion on HN</title>
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var comments;
+			function parseComments(data) {
+				comments = data;
+			}
+			$(document).ready(function() {
+				for (var i in comments.items) {
+					item = comments.items[i];
+					parseSingle(item);
+				}
+
+				function parseSingle(comment) {
+					//Add to comments
+					$("#comments").append(commentToHTML(comment));
+					//Parse children
+					if (!(comment.children === undefined)) {
+						for (var i in comment.children) {
+							parseSingle(comment.children[i]);
+						}
+					}
+				}
+
+				function commentToHTML(comment) {
+					username = comment.username;
+					content = unescape(comment.comment);
+					content = content.replace("__BR__","<br />");
+					userlink = "http://news.ycombinator.com/user?id=" + username;
+					time = comment.time;
+					return ('<div class="comment">' +
+								'<span class="user">' +
+									'<a href="' + userlink + '">' +
+										username +
+									'</a>' +
+								'</span>' +
+								'<span class="timestamp">' + time + '</span>' +
+								'<br>' + 
+								'<p class="text">' + content + '</p>' +
+							'</div>'
+							);
+				}
+			});
+		</script>
+		<script type="text/javascript" src=
+		<%="http://hndroidapi.appspot.com/nestedcomments/format/json/id/#{@id}?appid=hntoolbar&callback=parseComments" %>></script>
+		<div id="comments">
+
+		</div>
+	</body>
+</html

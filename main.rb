@@ -18,7 +18,8 @@ end
 
 get '/comments/:id' do
 	@id = params[:id]
-	open("http://hncomments.nathancahill.com/comments/" + @id + "/html/").read
+	#open("http://hncomments.nathancahill.com/comments/" + @id + "/html/").read
+	erb :comments
 end
 
 get '/p/proxy' do
